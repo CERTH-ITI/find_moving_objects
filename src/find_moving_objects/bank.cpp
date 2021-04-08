@@ -1501,9 +1501,13 @@ void Bank::findAndReportMovingObjects()
                               bank_argument.fixed_frame);
           mo_old_positions.position_in_base_frame = out.point;
           
+          // ROS_INFO("1");
+          
           // Transform new point into map, fixed and base frames at new_time
           in.header.stamp = new_time;
           in.point = mo.position;
+          
+          ROS_INFO_STREAM(old_time << " " << new_time << " " << ros::Time::now());
           
           tf_buffer->transform(in, // mo.position, 
                               out, // mo.position_in_map_frame, 
@@ -1511,6 +1515,7 @@ void Bank::findAndReportMovingObjects()
                               new_time,
                               bank_argument.fixed_frame);
           mo.position_in_map_frame = out.point;
+          // ROS_INFO("a");
           
           tf_buffer->transform(in, // mo.position, 
                               out, // mo.position_in_fixed_frame, 
@@ -1518,6 +1523,7 @@ void Bank::findAndReportMovingObjects()
                               new_time,
                               bank_argument.fixed_frame);
           mo.position_in_fixed_frame = out.point;
+          // ROS_INFO("b");
           
           tf_buffer->transform(in, // mo.position, 
                               out, // mo.position_in_base_frame, 
@@ -1525,6 +1531,9 @@ void Bank::findAndReportMovingObjects()
                               new_time,
                               bank_argument.fixed_frame);
           mo.position_in_base_frame = out.point;
+          // ROS_INFO("c");
+          
+          // ROS_INFO("2"); 
           
           // Transform closest point into map, fixed and base frames at new_time
           in.point = mo.closest_point;
@@ -1549,6 +1558,8 @@ void Bank::findAndReportMovingObjects()
                               new_time,
                               bank_argument.fixed_frame);
           mo.closest_point_in_base_frame = out.point;
+          
+          // ROS_INFO("3");
         } 
         catch (tf2::TransformException e)
         {

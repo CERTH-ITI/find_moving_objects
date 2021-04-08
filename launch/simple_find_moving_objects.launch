@@ -34,39 +34,37 @@
        default=""
        doc="Additional args for the pointcloud2 interpreter"
        />
-  
-  <arg name="frame_broadcaster_extra_args"
-       default=""
-       doc="Additional args for the frame broadcaster"
-       />
 
-  
-  <!-- Frames broadcaster - tf state publisher -->
-  <node pkg="find_moving_objects"
-        type="example_frame_broadcaster_node"
-        name="frame_broadcaster"
-        ns="frame_broadcaster"
-        args="--print_all_options
-              $(arg frame_broadcaster_extra_args)"
-        output="screen"
-        />
 
   <!--  Lidar  -->
-  <group if="$(arg use_lidar)"  ns="lidar">
+  <!-- <group if="$(arg use_lidar)"  ns=""> -->
     <!-- Run laserscan interpreter for lidar -->
     <include file="$(find find_moving_objects)/launch/includes/laserscan_interpreter_node.launch.xml">
-      <arg name="subscribe_topic" value="scan" />
+      <arg name="subscribe_topic" value="/raw_scan" />
       <arg name="topic_objects" value="/moving_objects" />
       <arg name="subscribe_buffer_size" value="10" />
     </include>
-  </group>
+  <!-- </group> -->
+  
+  <!--  Camera  -->
+  <!--  Attach to camera's namespace  -->
+  <!-- <group ns="astra">
+       <include file="$(find find_moving_objects)/launch/includes/pointcloud2_interpreter_nodelet.launch.xml">
+      <arg name="manager" value="astra_nodelet_manager" />
+      <arg name="subscribe_topic" value="depth_registered/points" />
+      <arg name="topic_objects" value="/moving_objects" />
+      <arg name="publish_ema" value="false"/>
+      <arg name="publish_objects_closest_points_markers" value="false"/>
+      <arg name="subscribe_buffer_size" value="10" />
+    </include>
+  </group> -->
   
   <!-- Run confidence enhancing node -->
-  <!-- <node pkg="find_moving_objects"
+  <node pkg="find_moving_objects"
         type="moving_objects_confidence_enhancer_node"
         name="confidence_enhancer_node"
         ns="confidence_enhancer"
         output="screen" >
     <param name="subscribe_topic" value="/moving_objects" />
-  </node> -->
+  </node>
 </launch>

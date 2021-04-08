@@ -48,7 +48,7 @@
   <arg name="object_threshold_max_delta_width_in_points"         default="15"/>
   <arg name="object_threshold_bank_tracking_max_delta_distance"  default="0.4"/>
   <arg name="object_threshold_min_confidence"                    default="0.7"/>
-  <arg name="base_confidence"                                    default="0.5"/>
+  <arg name="base_confidence"                                    default="0.6"/>
 
 
   <node if="$(arg create_manager)"
